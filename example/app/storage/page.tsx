@@ -1,11 +1,19 @@
 "use client";
+
 import { useEffect } from "react";
 import {
   useFile,
+  useBucket,
   useFileDelete,
   useFileDownload,
   useFileUpload,
+  useFileView,
+  useFilePreview,
 } from "react-appwrite/storage";
+import { FiTrash, FiDownload } from "react-icons/fi";
+import Image from "next/image";
+import { ID, Models } from "appwrite";
+
 export default function StoragePage() {
   const upload = useFileUpload();
   const { data } = useFile("test", "test");
@@ -20,49 +28,49 @@ export default function StoragePage() {
   console.log({ download });
 
   return (
-    <div className="grid w-screen h-screen place-items-center">
-      <div className="bg-transparent border-2 border-white/[.20] rounded px-[10vw] py-[100px]">
-        <div className="flex gap-2 max-[720px]:flex-col lg:flex-row">
-          <input
-            type="file"
-            className="grid place-content-center drop-shadow-lg hover:scale-[1.01] transition-all  "
-            onChange={(event) => {
-              const file = event.target?.files?.[0];
-              if (file) {
-                upload.mutate({
-                  bucketId: "test",
-                  fileId: "test",
-                  file,
-                });
-              }
-            }}
-          />
-          <div>
-            <button
-              type="button"
-              className="error button"
-              onClick={() => {
-                const url = deleteFile.mutate({
-                  bucketId: "test",
-                  fileId: "test",
-                });
-              }}
-            >
-              Delete
-            </button>
-            <div className=" min-w-fit inline-block ">
-              {upload.isLoading && <span>Loading</span>}
-              {data && <p>{data.name}</p>}
-              <a
-                download={data?.name}
-                className="success p-3 m-2 button hover:bg-transparent hover:text-success-100"
-                href={download.data?.href}
-              >
-                Download
-              </a>
-            </div>
-          </div>
-        </div>
+    <div>
+      <div className="flex gap-2">
+        <input
+          type="file"
+          onChange={(event) => {
+            const file = event.target?.files?.[0];
+
+            if (file) {
+              upload.mutate({
+                bucketId: "test",
+                fileId: "test",
+                file,
+              });
+            }
+          }}
+        />
+
+        <button
+          type="button"
+          className="error button"
+          onClick={() => {
+            const url = deleteFile.mutate({
+              bucketId: "test",
+              fileId: "test",
+            });
+          }}
+        >
+          Delete
+        </button>
+      </div>
+
+      <div>
+        {upload.isLoading && <span>Loading</span>}
+
+        {data && <p>{data.name}</p>}
+
+        <a
+          download={data?.name}
+          className="success button"
+          href={download.data?.href}
+        >
+          Download
+        </a>
       </div>
     </div>
   );
