@@ -68,6 +68,7 @@
   "dependencies": {
     "@tanstack/react-query": "^4.24.9",
     "@tanstack/react-query-devtools": "^4.24.9",
-    "immer": "^9.0.19"
+    "immer": "^9.0.19",
+    "pnpm": "^8.2.0"
   }
 }
