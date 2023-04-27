@@ -11,9 +11,10 @@
     "deploy": "appwrite functions createDeployment --functionId=sum --activate=true --entrypoint=\"index.js\" --code=\"./functions/sum\""
   },
   "dependencies": {
-    "appwrite": "^10.2.0",
+    "appwrite": "^11.0.0",
     "autoprefixer": "^10.4.13",
     "next": "^13.1.6",
+    "node-appwrite": "^8.2.0",
     "postcss": "^8.4.21",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^8.0.1",

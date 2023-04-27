@@ -3,6 +3,7 @@
  */
 export default {
   swcMinify: true,
+
   experimental: {
     appDir: true,
   },

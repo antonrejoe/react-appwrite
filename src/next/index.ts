@@ -1,6 +1,6 @@
 import type { Models } from 'appwrite'
 import type { ReadonlyRequestCookies } from 'next/dist/server/app-render'
-import type { RequestCookies } from 'next/dist/server/web/spec-extension/cookies'
+import type { RequestCookies, } from 'next/dist/server/web/spec-extension/cookies'
 import type { AppwriteNextMiddlewareHandler, AppwriteServerConfiguration } from './types'
 
 export * from './types'

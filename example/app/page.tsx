@@ -1,38 +1,44 @@
-'use client'
-import { useAccount, useOAuth2SignIn, useSignOut } from 'react-appwrite/account'
-import { useForm } from 'react-hook-form'
-import { ID } from 'appwrite'
+"use client";
+import {
+  useAccount,
+  useOAuth2SignIn,
+  useSignOut,
+} from "react-appwrite/account";
+import { useForm } from "react-hook-form";
+import { ID } from "appwrite";
+import { useRouter } from "next/navigation";
 
-import { useEmailSignIn, useEmailSignUp } from 'react-appwrite/account'
+import { useEmailSignIn, useEmailSignUp } from "react-appwrite/account";
 
-type Props = {}
+type Props = {};
 
 type Form = {
-  email: string,
-  password: string,
-  create: boolean,
-}
+  email: string;
+  password: string;
+  create: boolean;
+};
 
 function HomePage() {
-  const { data: account } = useAccount()
+  const router = useRouter();
+  const { data: account } = useAccount();
 
-  const signIn = useEmailSignIn()
-  const signUp = useEmailSignUp()
-  const signOut = useSignOut()
-  const oAuthSignIn = useOAuth2SignIn()
+  const signIn = useEmailSignIn();
+  const signUp = useEmailSignUp();
+  const signOut = useSignOut();
+  const oAuthSignIn = useOAuth2SignIn();
 
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data: Form) => {
-    console.log({ data })
+    console.log({ data });
 
     if (data.create) {
-      signUp.mutateAsync(data)
+      signUp.mutateAsync(data);
+      router.push("/home");
+    } else {
+      signIn.mutateAsync(data);
     }
-    else {
-      signIn.mutateAsync(data)
-    }
-  }
+  };
 
   return (
     <div className="container flex flex-1">
@@ -41,17 +47,9 @@ function HomePage() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col m-auto space-y-4"
       >
-        <input
-          type="text"
-          placeholder="Email"
-          {...register("email")}
-        />
+        <input type="text" placeholder="Email" {...register("email")} />
 
-        <input
-          type="text"
-          placeholder="Password"
-          {...register("password")}
-        />
+        <input type="text" placeholder="Password" {...register("password")} />
 
         <div className="flex items-center gap-2">
           <input
@@ -61,17 +59,10 @@ function HomePage() {
             {...register("create")}
           />
 
-          <label
-            htmlFor="create"
-          >
-            Create
-          </label>
+          <label htmlFor="create">Create</label>
         </div>
 
-        <button
-          className="success button"
-          type="submit"
-        >
+        <button className="success button" type="submit">
           Sign in
         </button>
 
@@ -80,10 +71,10 @@ function HomePage() {
           className="primary button"
           onClick={() => {
             oAuthSignIn.mutate({
-              provider: 'google',
-              successUrl: 'http://localhost:3000/ssr',
-              failureUrl: '',
-            })
+              provider: "google",
+              successUrl: "http://localhost:3000/ssr",
+              failureUrl: "http://localhost:3000/xyc",
+            });
           }}
         >
           Google sign in
@@ -93,21 +84,16 @@ function HomePage() {
           type="button"
           className="error button"
           onClick={() => {
-            signOut.mutateAsync()
+            signOut.mutateAsync();
           }}
         >
           Sign out
         </button>
 
-        {
-          account &&
-          <p>
-            Signed in as {account.email}
-          </p>
-        }
+        {account && <p>Signed in as {account.email}</p>}
       </form>
     </div>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;
